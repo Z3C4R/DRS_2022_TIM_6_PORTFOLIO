@@ -1,1 +1,1 @@
-print("sta je ovo!")
+print("ne bu de li radilo")
