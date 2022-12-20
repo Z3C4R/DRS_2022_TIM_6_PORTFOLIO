@@ -1,1 +1,1 @@
-print("nervoza ! !!")
+print("pozitiva ! !!")
