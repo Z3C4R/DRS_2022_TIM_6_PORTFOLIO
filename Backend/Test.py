@@ -1,1 +1,1 @@
-print("test broj dva bez rastislava !!")
+print("nervoza ! !!")
