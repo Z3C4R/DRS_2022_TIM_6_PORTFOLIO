@@ -1,1 +1,1 @@
-print("test broj jedan")
+print("test broj dva bez rastislava !!")
