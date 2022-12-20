@@ -1,1 +1,1 @@
-print("opaa!")
+print("sta je ovo!")
