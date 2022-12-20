@@ -1,1 +1,1 @@
-print("nervoza ! !!")
+print("vajda vise nije Rastislav ! !!")
