@@ -36,9 +36,9 @@ def create_event():
     db.session.commit()
     return format_event(event)
 
-@Engine.route('/events', method=['GET'])
+@Engine.route('/events', methods=['GET'])
 def get_events():
     events=Event.query.order_by(Event.id.asc()).all()    
 
 if __name__=='__main__':
-    Engine.run()
+    Engine.run(debug=True, port=5000)
