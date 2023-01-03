@@ -6,14 +6,17 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default function App() {
   return (
-    
+    <>
+    <Index />
     <BrowserRouter>
     <Routes>
-          <Route path="/" element={<Index />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
     </Routes>
   </BrowserRouter>
+    
+    </>
+    
   
       
   );
