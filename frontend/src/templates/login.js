@@ -2,6 +2,7 @@ import React from 'react';
 
 function Login(){
     return(
+        <section>
             <div className="login">
             <form method="POST">
                 <h3 align="center">Login</h3>
@@ -29,6 +30,7 @@ function Login(){
                     <button type="submit" class="btn btn-primary">Login</button>
                 </form>
             </div>
+            </section>
     )
 
 }

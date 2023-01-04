@@ -1,11 +1,13 @@
 from datetime import datetime
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
 Engine=Flask(__name__)
 Engine.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://postgres:1234@localhost/Portfolio'
 Engine.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db=SQLAlchemy(Engine)
+CORS(Engine)
 
 Engine.app_context().push()
 
@@ -75,26 +77,41 @@ def update_event(id):
 
 class User(db.Model):
     id=db.Column(db.Integer, primary_key=True)
-    username=db.Column(db.String(100), nullable=False)
+    firstname=db.Column(db.String(100), nullable=False)
+    lastname=db.Column(db.String(100), nullable=False)
+    adress=db.Column(db.String(100), nullable=False)
+    city=db.Column(db.String(100), nullable=False)
+    country=db.Column(db.String(100), nullable=False)
+    phonenumber=db.Column(db.String(100), nullable=False)
     email=db.Column(db.String(100), nullable=False)
     password=db.Column(db.String(100), nullable=False)
     created_at=db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
-        return f"User: {self.username+','+self.email+','+self.password}"
+        return f"User: {self.firstname+','+self.lastname+','+self.adress+','+self.city+','+self.country+','+self.phonenumber+','+self.email+','+self.password}"
 
-    def __init__(self, username, email, password):
-        self.username=username,
+    def __init__(self, firstname, lastname, adress, city, country, phonenumber, email, password):
+        self.firstname=firstname,
+        self.lastname=lastname,
+        self.adress=adress,
+        self.city=city,
+        self.country=country,
+        self.phonenumber=phonenumber,
         self.email=email,
         self.password=password
 
 # register user
-@Engine.route('/register', methods=['POST'])
+@Engine.route('/users', methods=['POST'])
 def create_user():
-    username=request.json['username']
+    firstname=request.json['firstname']
+    lastname=request.json['lastname']
+    adress=request.json['adress']
+    city=request.json['city']
+    country=request.json['country']
+    phonenumber=request.json['phonenumber']
     email=request.json['email']
     password=request.json['password']
-    user=User(username,email,password)
+    user=User(firstname,lastname,adress,city,country,phonenumber,email,password)
     db.session.add(user)
     db.session.commit()
     return format_user(user)
@@ -127,17 +144,27 @@ def delete_user(id):
 @Engine.route('/users/<id>', methods = ['PUT'])
 def update_user(id):
     user = User.query.filter_by(id=id)
-    username=request.json['username']
+    firstname=request.json['firstname']
+    lastname=request.json['lastname']
+    adress=request.json['adress']
+    city=request.json['city']
+    country=request.json['country']
+    phonenumber=request.json['phonenumber']
     email=request.json['email']
     password=request.json['password']
-    user.update(dict(username = username, email=email, password=password, created_at = datetime.utcnow()))
+    user.update(dict(firstname = firstname, lastname=lastname, adress=adress, city=city, country=country, phonenumber=phonenumber, email=email, password=password, created_at = datetime.utcnow()))
     db.session.commit()
     return {'user': format_user(user.one())}    
 
 def format_user(user):
     return{ 
         "id":user.id,
-        "Username":user.username,
+        "Firstname":user.firstname,
+        "Lastname":user.lastname,
+        "Adress":user.adress,
+        "City":user.city,
+        "Country":user.country,
+        "Phonenumber":user.phonenumber,
         "Email":user.email,
         "Password":user.password,
         "created_at": user.created_at
