@@ -1,13 +1,15 @@
 import React from 'react';
+import "./login.css";
 
 function Login(){
     return(
             <div className="login">
             <form method="POST">
-                <h3 align="center">Login</h3>
+                <h2 align="center">Login</h2>
                 <div class="form-group">
                 <label for="email">Email Address: </label>
                 <input
+                     align = "center"
                      type="email"
                      class="form-control"
                      id="email"
@@ -18,6 +20,7 @@ function Login(){
                  <div class="form-group">
                  <label for="password">Password: </label>
                  <input
+                     align = "center"
                    type="password"
                    class="form-control"
                    id="password"
