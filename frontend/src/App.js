@@ -18,16 +18,13 @@ export default function App() {
     <>
     <Index />
     <BrowserRouter>
-    <Routes>
+      <Routes>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-    </Routes>
-  </BrowserRouter>
+      </Routes>
+    </BrowserRouter>
     
     </>
-    
-  
-      
   );
 }
 

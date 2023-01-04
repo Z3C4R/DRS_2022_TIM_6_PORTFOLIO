@@ -3,6 +3,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import "./index.css";
 
 
+
 function Index() {
 	const navRef = useRef();
 
