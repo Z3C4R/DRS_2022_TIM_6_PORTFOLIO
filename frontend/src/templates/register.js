@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "./register.css"
 
 const baseUrl="http://localhost:5000"
 
@@ -16,6 +17,7 @@ export default function Register() {
   const [password, setPassword]=useState("");
 
   const[usersList, setUsersList]=useState([]);
+  
 
   const fetchUsers=async()=>{
     const data=await axios.get(`${baseUrl}/users`)
@@ -35,6 +37,16 @@ export default function Register() {
     
   }
   
+  const handleDelete = async (id) => {
+    try{
+      await axios.delete(`${baseUrl}/users/${id}`)
+      const updatedList = usersList.filter(event => event.id === id)
+      setUsersList(updatedList);
+    } catch(err){
+      console.error(err.message)
+    }
+  }
+
 
   const handleChange1= e =>{
     setFirstname(e.target.value);
@@ -69,7 +81,7 @@ useEffect(()=>{
     <div>
         <section>
         <form onSubmit={handleSubmit}>
-        <h3 align="center">Sign Up</h3>
+        <h2 align="center">Sign Up</h2>
         <div className="form-group">
             <label htmlFor="firstname">First Name: </label>
             <input
@@ -174,9 +186,13 @@ useEffect(()=>{
           <div>
             <h2>Lista usera</h2>
 		       <ul>
-              {usersList?.map(User=>{
+              {usersList.map(user => {
                 return(
-                  <li key={User.id}>{User.firstname}</li>
+                  <li key={user.id}>
+                    {user.firstname}
+                    
+                    <button onClick={() => handleDelete(user.id)}>X</button>
+                  </li>
                 )
               })}
            </ul>

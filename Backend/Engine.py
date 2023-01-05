@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
 Engine=Flask(__name__)
-Engine.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://postgres:1234@localhost/Portfolio'
+Engine.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://postgres:aca@localhost/Portfolio'
 Engine.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db=SQLAlchemy(Engine)
 CORS(Engine)
