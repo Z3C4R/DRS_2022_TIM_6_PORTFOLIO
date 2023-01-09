@@ -49,16 +49,25 @@ export default function Register() {
     }
   }
 
-
-  function regCheck(){
-    
-  }
+  var result = usersList.filter(user => {
+    return user.Email === email;
+    });
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
 
     if(emptyCheck() === true) return;
-    if(letterCheck() === true) return;
+    if(letterCheck() === true)return;
+    console.log(result);
+
+
+    if(result.length === 0) {
+      console.log("Email is free!");
+    }else {
+        alert("Mail is taken !");
+        return;
+    }
+
 
     try{
       const data=await axios.post(`${baseUrl}/users`,{firstname, lastname, adress, city, country, phonenumber, email, password})
@@ -228,7 +237,7 @@ useEffect(()=>{
               {usersList.map(user => {
                 return(
                   <li key={user.id}>
-                    {user.firstname}
+                    {user.Firstname}
                     
                     <button onClick={() => handleDelete(user.id)}>X</button>
                   </li>
