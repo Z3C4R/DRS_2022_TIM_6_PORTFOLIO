@@ -23,14 +23,47 @@ export default function Register() {
     const data=await axios.get(`${baseUrl}/users`)
     const {Users}=data.data
     setUsersList(Users);
-    console.log("DATA: ", data)
+    console.log("DATA: ", Users)
+   
+  }
+
+  function emptyCheck(){
+    
+    if(firstname === "" || lastname === "" || adress === "" || city === "" || country === "" || phonenumber === "" || email === "" || password === ""){
+      alert("All fileds must be filled !");
+      return true;
+    } 
+    
+  }
+
+  function letterCheck(){
+    var letters = /^[A-Za-z]+$/;
+    var addressValidation = /^(?:[0-9]+[a-z]|[a-z]+[0-9])[a-z0-9]*$/i
+    var lettersAndSpace = /^[A-Za-z\s]+$/;
+    var phoneValidation = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
+    var pwValidation = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+    if(!letters.test(firstname) || !letters.test(lastname) || !addressValidation.test(adress) || !lettersAndSpace.test(city) || !phoneValidation.test(phonenumber) || pwValidation.test(password)){
+      alert("Not all fields are filled properly,please check again");
+      return true;
+      
+    }
+  }
+
+
+  function regCheck(){
+    
   }
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
+
+    if(emptyCheck() === true) return;
+    if(letterCheck() === true) return;
+
     try{
       const data=await axios.post(`${baseUrl}/users`,{firstname, lastname, adress, city, country, phonenumber, email, password})
       setUsersList([...usersList, data.data]);
+      
     }catch(err){
       console.error(err.message);
     }
@@ -42,6 +75,12 @@ export default function Register() {
       await axios.delete(`${baseUrl}/users/${id}`)
       const updatedList = usersList.filter(event => event.id === id)
       setUsersList(updatedList);
+/*
+      if(usersList.length === 0){
+        console.log("Empty");
+      }else console.log("List is not empty !");
+*/
+
     } catch(err){
       console.error(err.message)
     }
