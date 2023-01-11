@@ -11,10 +11,12 @@ function Index() {
 		navRef.current.classList.toggle("responsive_nav");
 	};
 
+	let Logo = require('../templates/crypto.png')
+
 	return (
 		<div>
 		<header>
-			<h3>LOGO</h3>
+			<h3><img src={Logo} alt="Crypto Logo"/></h3>
 			<nav ref={navRef}>
 			    <a href="/">Home</a>
 				<a href="/Login">Login</a>
