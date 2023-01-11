@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import "./register.css"
+import "./register.css";
+import { UserContext } from "../UserContext";
+
 
 const baseUrl="http://localhost:5000"
 
@@ -18,6 +20,10 @@ export default function Register() {
 
   const[usersList, setUsersList]=useState([]);
   
+  const {currentUser, setCurrentUser}=useContext(UserContext);
+
+  const {value, setValue}=useContext(UserContext);
+
 
   const fetchUsers=async()=>{
     const data=await axios.get(`${baseUrl}/users`)
@@ -38,7 +44,7 @@ export default function Register() {
 
   function letterCheck(){
     var letters = /^[A-Za-z]+$/;
-    var addressValidation = /^(?:[0-9]+[a-z]|[a-z]+[0-9])[a-z0-9]*$/i
+    var addressValidation = /^(?:[0-9]+[a-z]|[a-z]+[0-9])[a-z0-9]*$/i;
     var lettersAndSpace = /^[A-Za-z\s]+$/;
     var phoneValidation = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
     var pwValidation = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
@@ -49,20 +55,29 @@ export default function Register() {
     }
   }
 
+  
+  var result = usersList.filter(user => {
+    return user.Email === email;
+    });
 
-  function regCheck(){
-    
-  }
+  
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
 
     if(emptyCheck() === true) return;
     if(letterCheck() === true) return;
+    if(result.length === 0) {
+      console.log("Email is free!");
+    }else {
+        alert("Mail is taken !");
+        return;
+    }
 
     try{
       const data=await axios.post(`${baseUrl}/users`,{firstname, lastname, adress, city, country, phonenumber, email, password})
       setUsersList([...usersList, data.data]);
+      alert("Uspesna registracija!")
       
     }catch(err){
       console.error(err.message);
@@ -118,7 +133,9 @@ useEffect(()=>{
 
   return(
     <div>
+      <center>
         <section>
+          
         <form onSubmit={handleSubmit}>
         <h2 align="center">Sign Up</h2>
         <div className="form-group">
@@ -219,24 +236,23 @@ useEffect(()=>{
             </div>
             <br />
             <button type="submit" className="btn btn-primary">Submit</button>
+            <h3>Loged in:{value}</h3>
+            <pre>{JSON.stringify(currentUser, null,2)}</pre>
           </form>
           </section>
-          <section>
+          <section align="right">
           <div>
             <h2>Lista usera</h2>
 		       <ul>
-              {usersList.map(user => {
+              {usersList.map(Users => {
                 return(
-                  <li key={user.id}>
-                    {user.firstname}
-                    
-                    <button onClick={() => handleDelete(user.id)}>X</button>
-                  </li>
+                  <li key={Users.id}>{Users.Firstname} {Users.Lastname} <button onClick={() => handleDelete(Users.id)}>X</button> </li>
                 )
               })}
            </ul>
           </div>  
         </section>
+        </center>
         </div>
     )
 }

@@ -12,6 +12,7 @@ function Index() {
 	};
 
 	return (
+		<div>
 		<header>
 			<h3>LOGO</h3>
 			<nav ref={navRef}>
@@ -28,6 +29,7 @@ function Index() {
 				<FaBars />
 			</button>
 		</header>
+		</div>
 	);
 }
 

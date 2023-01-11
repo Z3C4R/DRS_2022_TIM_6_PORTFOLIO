@@ -1,30 +1,31 @@
 import Login from './templates/login';
 import Register from './templates/register';
 import Index from './templates/index';
-import React from 'react';
+import React, {useMemo, useState} from 'react';
 import axios from "axios";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route} from "react-router-dom";
+import {UserContext} from './UserContext';
 
-const baseUrl="https://localhost:5000"
 
 export default function App() {
   
-  const fetchUsers=async()=>{
-    const data=await axios.get('${baseUrl}/users')
-    console.log("DATA: ", data)
-  }
-  
+  const [currentUser, setCurrentUser]=useState(null);
+
+  const userValue= useMemo(()=>({currentUser, setCurrentUser}),[currentUser,setCurrentUser]);
+
   return (
     <>
     <Index />
     <BrowserRouter>
-      <Routes>
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-      </Routes>
+      <UserContext.Provider value={userValue}>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </UserContext.Provider>       
     </BrowserRouter>
-    
     </>
+    
   );
 }
 
