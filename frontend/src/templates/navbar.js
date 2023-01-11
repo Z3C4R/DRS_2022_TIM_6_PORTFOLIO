@@ -1,10 +1,8 @@
 import { useRef } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import "./index.css";
+import "./navbar.css";
 
-
-
-function Index() {
+function Navbar() {
 	const navRef = useRef();
 
 	const showNavbar = () => {
@@ -35,4 +33,4 @@ function Index() {
 	);
 }
 
-export default Index;
+export default Navbar;

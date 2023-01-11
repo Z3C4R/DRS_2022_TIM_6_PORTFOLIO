@@ -1,6 +1,7 @@
 import Login from './templates/login';
 import Register from './templates/register';
-import Index from './templates/index';
+import Navbar from './templates/navbar';
+import Home from './templates/home';
 import React, {useMemo, useState} from 'react';
 import axios from "axios";
 import { BrowserRouter, Routes, Route} from "react-router-dom";
@@ -14,17 +15,17 @@ export default function App() {
   const userValue= useMemo(()=>({currentUser, setCurrentUser}),[currentUser,setCurrentUser]);
 
   return (
-    <>
-    <Index />
+
     <BrowserRouter>
       <UserContext.Provider value={userValue}>
+      <Navbar />
         <Routes>
+          <Route path="/" element={<Home />}/>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
       </UserContext.Provider>       
     </BrowserRouter>
-    </>
     
   );
 }
