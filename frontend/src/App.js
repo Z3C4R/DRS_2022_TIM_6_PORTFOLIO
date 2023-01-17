@@ -1,8 +1,6 @@
 import Login from './templates/login';
 import Register from './templates/register';
 import Navbar from './templates/navbar';
-import CoinNavbar from './components/CoinNavbar';
-import Coins from './components/Coins';
 import Home from './templates/home';
 import React, {useMemo, useState, useEffect} from 'react';
 import axios from "axios";
@@ -37,15 +35,14 @@ export default function App() {
     <BrowserRouter>
       <UserContext.Provider value={userValue}>
       <Navbar />
-      <CoinNavbar />
-      <Coins coins={coins} />
         <Routes>
-          <Route path="/" element={<Home />}/>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
+            <Route path="/" element={<Home coins={coins} />}/>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />  
+        </Routes>   
       </UserContext.Provider>       
     </BrowserRouter>
+
     
   );
 }
