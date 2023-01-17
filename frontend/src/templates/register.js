@@ -29,12 +29,6 @@ export default function Register() {
    
   }
 
-  useEffect(() => {
-    const storedUser = sessionStorage.getItem("currentUser");
-    if (storedUser) {
-      setCurrentUser(JSON.parse(storedUser));
-    }
-  }, []);
 
   function emptyCheck(){
     if(firstname === "" || lastname === "" || adress === "" || city === "" || country === "" || phonenumber === "" || email === "" || password === ""){
