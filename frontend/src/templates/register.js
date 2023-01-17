@@ -17,13 +17,9 @@ export default function Register() {
   const [phonenumber, setPhonenumber]=useState("");
   const [email, setEmail]=useState("");
   const [password, setPassword]=useState("");
-
-  const[usersList, setUsersList]=useState([]);
   
+  const[usersList, setUsersList]=useState([]);
   const {currentUser, setCurrentUser}=useContext(UserContext);
-
-  const {value, setValue}=useContext(UserContext);
-
 
   const fetchUsers=async()=>{
     const data=await axios.get(`${baseUrl}/users`)
@@ -33,16 +29,21 @@ export default function Register() {
    
   }
 
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem("currentUser");
+    if (storedUser) {
+      setCurrentUser(JSON.parse(storedUser));
+    }
+  }, []);
+
   function emptyCheck(){
-    
     if(firstname === "" || lastname === "" || adress === "" || city === "" || country === "" || phonenumber === "" || email === "" || password === ""){
       alert("All fileds must be filled !");
       return true;
     } 
-    
   }
-
-  function letterCheck(){
+    
+   function letterCheck(){
     var letters = /^[A-Za-z]+$/;
     var addressValidation = /^(?:[0-9]+[a-z]|[a-z]+[0-9])[a-z0-9]*$/i;
     var lettersAndSpace = /^[A-Za-z\s]+$/;
@@ -55,12 +56,9 @@ export default function Register() {
     }
   }
 
-  
   var result = usersList.filter(user => {
     return user.Email === email;
     });
-
-  
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
@@ -90,11 +88,6 @@ export default function Register() {
       await axios.delete(`${baseUrl}/users/${id}`)
       const updatedList = usersList.filter(event => event.id === id)
       setUsersList(updatedList);
-/*
-      if(usersList.length === 0){
-        console.log("Empty");
-      }else console.log("List is not empty !");
-*/
 
     } catch(err){
       console.error(err.message)
@@ -134,8 +127,7 @@ useEffect(()=>{
   return(
     <div>
       <center>
-        <section>
-          
+        <section>        
         <form onSubmit={handleSubmit}>
         <h2 align="center">Sign Up</h2>
         <div className="form-group">
@@ -236,7 +228,7 @@ useEffect(()=>{
             </div>
             <br />
             <button type="submit" className="btn btn-primary">Submit</button>
-            <h3>Loged in:{value}</h3>
+            <h3>Loged in:</h3>
             <pre>{JSON.stringify(currentUser, null,2)}</pre>
           </form>
           </section>

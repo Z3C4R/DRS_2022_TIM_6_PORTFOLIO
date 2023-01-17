@@ -6,15 +6,15 @@ import Coins from './components/Coins';
 import Home from './templates/home';
 import React, {useMemo, useState, useEffect} from 'react';
 import axios from "axios";
-import { BrowserRouter, Routes, Route} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {UserContext} from './UserContext';
 
 
 export default function App() {
   
-  const [currentUser, setCurrentUser]=useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
-  const userValue= useMemo(()=>({currentUser, setCurrentUser}),[currentUser,setCurrentUser]);
+  const userValue = useMemo(() => ({ currentUser, setCurrentUser }), [currentUser, setCurrentUser]);
 
   const [coins, setCoins] = useState([])
 
@@ -33,20 +33,19 @@ export default function App() {
   
 
   return (
-
     <BrowserRouter>
       <UserContext.Provider value={userValue}>
       <Navbar />
-      <CoinNavbar />
       <Coins coins={coins} />
         <Routes>
-          <Route path="/" element={<Home />}/>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/" exact component={Home} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
         </Routes>
-      </UserContext.Provider>       
+      </UserContext.Provider>
     </BrowserRouter>
-    
   );
+
+  
 }
 

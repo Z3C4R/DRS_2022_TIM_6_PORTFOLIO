@@ -9,9 +9,7 @@ function Login(){
 
     const [email, setEmail]=useState("");
     const [password, setPassword]=useState("");
-
     const {currentUser, setCurrentUser}=useContext(UserContext);
-
     const[usersList, setUsersList]=useState([]);
 
     const handleChange7= e =>{
@@ -28,15 +26,20 @@ function Login(){
     console.log("DATA: ", data)
   }
 
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem("currentUser");
+    if (storedUser) {
+      setCurrentUser(JSON.parse(storedUser));
+    }
+  }, []);
+
   function emptyCheck(){
-    
     if(email === "" || password === ""){
       alert("All fileds must be filled !");
       return true;
     } 
-    
   }
-
+    
   function matchCheck(){
     var res=0;
     usersList.forEach(user => {
@@ -56,8 +59,7 @@ function Login(){
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
-
-
+    
     if(emptyCheck() === true) return;
     if(matchCheck()=== false) {
       if(result.length === 0) {
@@ -69,8 +71,10 @@ function Login(){
       }
     }
    
+    sessionStorage.setItem("currentUser", JSON.stringify(result));
 
     try{
+      
       console.log("Loged in!");
       alert("Login uspeo!");
 

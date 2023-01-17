@@ -11,69 +11,83 @@ CORS(Engine)
 
 Engine.app_context().push()
 
-class Event(db.Model):
-    id=db.Column(db.Integer, primary_key=True)
-    description=db.Column(db.String(100), nullable=False)
-    created_at=db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
-    def __repr__(self):
-        return f"Event: {self.description}"
-
-    def __init__(self, description):
-        self.description=description
-
-def format_event(event):
-    return{
-        "description":event.description,
-        "id":event.id,
-        "created_at": event.created_at
-    }
-
 @Engine.route('/')
 def hello():
     return 'Hey!'
 
-# create an event
-@Engine.route('/events', methods=['POST'])
-def create_event():
-    description=request.json['description']
-    event=Event(description)
-    db.session.add(event)
+
+class Coin(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    ownerId=db.Column(db.String(100), nullable=False)
+    coinName=db.Column(db.String(100), nullable=False)
+    coinValue=db.Column(db.String(100), nullable=False)
+    created_at=db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"Coin: {self.ownerId+','+self.coinName+','+self.coinValue}"
+
+    def __init__(self, ownerId, coinName, coinValue):
+        self.ownerId=ownerId,
+        self.coinName=coinName,
+        self.coinValue=coinValue
+       
+
+def format_coin(coin):
+    return{
+        "id":coin.id,
+        "Owner":coin.ownerId,
+        "CoinName":coin.coinName,
+        "CoinValue":coin.coinValue,
+        "created_at": coin.created_at
+    }
+
+
+# create an coin
+@Engine.route('/coins', methods=['POST'])
+def create_coin():
+    ownerId=request.json['ownerId']
+    coinName=request.json['coinName']
+    coinValue=request.json['coinValue']
+    coin=Coin(ownerId,coinName,coinValue)
+    db.session.add(coin)
     db.session.commit()
-    return format_event(event)
+    return format_coin(coin)
 
-# get all events
-@Engine.route('/events', methods=['GET'])
-def get_events():
-    events=Event.query.order_by(Event.id.asc()).all()    
-    event_list = []
-    for event in events:
-        event_list.append(format_event(event))
-    return {'events' : event_list}
+# get all coins
+@Engine.route('/coins', methods=['GET'])
+def get_coins():
+    coins=Coin.query.order_by(Coin.id.asc()).all()    
+    coin_list = []
+    for coin in coins:
+        coin_list.append(format_coin(coin))
+    return {'coins' : coin_list}
 
-# get single event
-@Engine.route('/events/<id>', methods = ['GET'])
-def get_event(id):
-    event = Event.query.filter_by(id=id).one()
-    formatted_event = format_event(event)
-    return {'event' : formatted_event}
+# get single coin
+@Engine.route('/coins/<id>', methods = ['GET'])
+def get_coin(id):
+    coin = Coin.query.filter_by(id=id).one()
+    formatted_coin = format_coin(coin)
+    return {'coin' : formatted_coin}
 
-# delete an event 
-@Engine.route('/events/<id>', methods = ['DELETE'])
-def delete_event(id):
-    event = Event.query.filter_by(id=id).one()
-    db.session.delete(event)
+# delete an coin 
+@Engine.route('/coins/<id>', methods = ['DELETE'])
+def delete_coin(id):
+    coin = Coin.query.filter_by(id=id).one()
+    db.session.delete(coin)
     db.session.commit()
-    return f'Event (id: {id}) deleted!'
+    return f'Coin (id: {id}) deleted!'
 
-# edit an event
-@Engine.route('/events/<id>', methods = ['PUT'])
-def update_event(id):
-    event = Event.query.filter_by(id=id)
-    description = request.json['description']
-    event.update(dict(description = description, created_at = datetime.utcnow()))
+# edit an coin
+@Engine.route('/coins/<id>', methods = ['PUT'])
+def update_coin(id):
+    coin = Coin.query.filter_by(id=id)
+    ownerId=request.json['ownerId']
+    coinName=request.json['coinName']
+    coinValue=request.json['coinValue']
+    coin=Coin(ownerId,coinName,coinValue)
+    coin.update(dict(ownerId=ownerId, coinName=coinName, coinValue=coinValue, created_at = datetime.utcnow()))
     db.session.commit()
-    return {'event': format_event(event.one())}
+    return {'coin': format_coin(coin.one())}
 
 class User(db.Model):
     id=db.Column(db.Integer, primary_key=True)
