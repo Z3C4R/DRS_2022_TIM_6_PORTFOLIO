@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import "./register.css";
 import { UserContext } from "../UserContext";
+import { useNavigate } from "react-router-dom";
 
 
 const baseUrl="http://localhost:5000"
@@ -9,6 +10,8 @@ const baseUrl="http://localhost:5000"
 
 export default function Register() {
   
+  const navigate = useNavigate();
+
   const [firstname, setFirstname]=useState("");
   const [lastname, setLastname]=useState("");
   const [adress, setAdress]=useState("");
@@ -70,6 +73,8 @@ export default function Register() {
     try{
       const data=await axios.post(`${baseUrl}/users`,{firstname, lastname, adress, city, country, phonenumber, email, password})
       setUsersList([...usersList, data.data]);
+      // redirect
+      navigate("/login");
       
     }catch(err){
       console.error(err.message);

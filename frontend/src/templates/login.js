@@ -2,10 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import "./login.css";
 import { UserContext } from "../UserContext";
+import { useNavigate } from "react-router-dom";
 
 const baseUrl="http://localhost:5000"
 
 function Login(){
+
+    const navigate= useNavigate();
 
     const [email, setEmail]=useState("");
     const [password, setPassword]=useState("");
@@ -66,11 +69,11 @@ function Login(){
       }
     }
 
-    
-
     try{
       
       console.log("Loged in!");
+      navigate("/");
+      
 
     }catch(err){
       console.error(err.message);
