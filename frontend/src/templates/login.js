@@ -26,12 +26,6 @@ function Login(){
     console.log("DATA: ", data)
   }
 
-  useEffect(() => {
-    const storedUser = sessionStorage.getItem("currentUser");
-    if (storedUser) {
-      setCurrentUser(JSON.parse(storedUser));
-    }
-  }, []);
 
   function emptyCheck(){
     if(email === "" || password === ""){
@@ -57,6 +51,7 @@ function Login(){
     return user.Email === email;
     });
 
+  
   const handleSubmit = async (e) =>{
     e.preventDefault();
     
@@ -71,7 +66,6 @@ function Login(){
       }
     }
    
-    sessionStorage.setItem("currentUser", JSON.stringify(result));
 
     try{
       
