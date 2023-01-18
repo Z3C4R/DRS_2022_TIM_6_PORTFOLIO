@@ -2,6 +2,7 @@ import Login from './templates/login';
 import Register from './templates/register';
 import Navbar from './templates/navbar';
 import Home from './templates/home';
+import Coin from './routes/Coin';
 import React, {useMemo, useState, useEffect} from 'react';
 import axios from "axios";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -21,7 +22,7 @@ export default function App() {
   useEffect(() => {
     axios.get(url).then((response) => {
       setCoins(response.data)
-      console.log(response.data[0])
+      //console.log(response.data[0])
 
     }).catch((error) => {
       console.log(error)
@@ -36,6 +37,9 @@ export default function App() {
       <UserContext.Provider value={userValue}>
         <Routes>
             <Route path="/" element={<Home coins={coins} />}/>
+            <Route path="/coin" element={<Coin />}>
+              <Route path=":coinId" element={<Coin />} />
+              </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />  
         </Routes>   
