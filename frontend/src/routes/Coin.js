@@ -1,32 +1,61 @@
-import React,{ useState, useEffect } from 'react';
+import React,{ useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
-
-
+import { UserContext } from "../UserContext";
 import './Coin.css'
 
+const baseUrl="http://localhost:5000"
 
 const Coin = () => {
 
-    const params = useParams()
-    const [coin, setCoin] = useState({})
+    const {currentUser}=useContext(UserContext);
+    const params = useParams();
+    const [coin, setCoin] = useState({});
+    const [ownerId, setOwnerId]=useState(null);
+    const [coinName, setCoinName]=useState("");
+    const [coinValue, setCoinValue]=useState("");
     
     const url = `https://api.coingecko.com/api/v3/coins/${params.coinId}`
+
 
     useEffect(() => {
         axios.get(url).then((res) => {
             setCoin(res.data)
+            setOwnerId(currentUser.id);
+            setCoinName(res.data.name);
+            setCoinValue(res.data.market_data.current_price.usd.toLocaleString());
         }).catch((error) =>{
             console.log(error)
         })    
         }, [])
+
+        
+
+    const handleSubmit = async (e) =>{
+        e.preventDefault();      
+        
+    
+        
+        try{
+            
+            const data=await axios.post(`${baseUrl}/coins`,{ownerId, coinName, coinValue});
+            alert("Uspesno obavljena kupovina!");
+    
+        }catch(err){
+          console.error(err.message);
+        }
+        
+      }
+
+    
         return (
             <div>
                 <div className='coin-container'>
                     <div className='content'>
                         <h1>{coin.name}</h1>
                     </div>
+                    <form onSubmit={handleSubmit}> 
                     <div className='content'>
                         <div className='rank'>
                             <span className='rank-btn'>Rank # {coin.market_cap_rank}</span>
@@ -41,8 +70,12 @@ const Coin = () => {
                                 {coin.market_data?.current_price? <h1>${coin.market_data.current_price.usd.toLocaleString()} </h1> :null}
                                 
                             </div>
+                            <div align="right">
+                                <button type="submit">BUY</button>
+                            </div>
                         </div>
                     </div>
+                    </form>
                     <div className='content'>
                         <table>
                             <thead>

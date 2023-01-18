@@ -2,17 +2,14 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import "./profile.css";
 import { UserContext } from "../UserContext";
-import { useNavigate } from "react-router-dom";
-
 
 const baseUrl="http://localhost:5000"
 
 
 export default function Profile() {
     
-  const {currentUser, setCurrentUser}=useContext(UserContext);
+  const {currentUser}=useContext(UserContext);
 
-  const navigate = useNavigate();
 
   const [firstname, setFirstname]=useState(currentUser.Firstname);
   const [lastname, setLastname]=useState(currentUser.Lastname);
@@ -36,7 +33,7 @@ export default function Profile() {
     var letters = /^[A-Za-z]+$/;
     var addressValidation = /^(?:[0-9]+[a-z]|[a-z]+[0-9])[a-z0-9]*$/i;
     var lettersAndSpace = /^[A-Za-z\s]+$/;
-    var phoneValidation = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
+    var phoneValidation = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s/0-9]*$/g;
     var pwValidation = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
     if(!letters.test(firstname) || !letters.test(lastname) || !addressValidation.test(adress) || !lettersAndSpace.test(city) || !phoneValidation.test(phonenumber) || pwValidation.test(password)){
       alert("Not all fields are filled properly,please check again");
@@ -97,9 +94,6 @@ export default function Profile() {
     setPassword(e.target.value);
   }
   
-  const navigateChangePassword = () => {
-    navigate('/changepw');
-  };
 
   return(
     
@@ -206,13 +200,11 @@ export default function Profile() {
             </div>
             <br />
             
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <button type="submit" className="btn btn-primary">Edit profile</button>
             <h3>Loged in:{currentUser.Firstname}</h3>
             <pre>{JSON.stringify(currentUser, null,2)}</pre>
           </form>
           </section>
-
-          <button onClick={ navigateChangePassword}>Change password</button><br></br>
         </center>
         </div>
     )

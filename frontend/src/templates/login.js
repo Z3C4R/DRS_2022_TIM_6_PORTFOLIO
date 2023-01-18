@@ -71,7 +71,6 @@ function Login(){
     try{
       
       console.log("Loged in!");
-      window.location.href = "/";
 
     }catch(err){
       console.error(err.message);

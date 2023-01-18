@@ -20,7 +20,7 @@ export default function Register() {
   
   const[usersList, setUsersList]=useState([]);
   
-  const {currentUser, setCurrentUser}=useContext(UserContext);
+  const {currentUser}=useContext(UserContext);
 
   const fetchUsers=async()=>{
     const data=await axios.get(`${baseUrl}/users`)
@@ -42,7 +42,7 @@ export default function Register() {
     var letters = /^[A-Za-z]+$/;
     var addressValidation = /^(?:[0-9]+[a-z]|[a-z]+[0-9])[a-z0-9]*$/i;
     var lettersAndSpace = /^[A-Za-z\s]+$/;
-    var phoneValidation = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
+    var phoneValidation = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s/0-9]*$/g;
     var pwValidation = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
     if(!letters.test(firstname) || !letters.test(lastname) || !addressValidation.test(adress) || !lettersAndSpace.test(city) || !phoneValidation.test(phonenumber) || pwValidation.test(password)){
       alert("Not all fields are filled properly,please check again");
@@ -70,7 +70,6 @@ export default function Register() {
     try{
       const data=await axios.post(`${baseUrl}/users`,{firstname, lastname, adress, city, country, phonenumber, email, password})
       setUsersList([...usersList, data.data]);
-      window.location.href = "/login";
       
     }catch(err){
       console.error(err.message);

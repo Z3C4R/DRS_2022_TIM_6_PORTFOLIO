@@ -19,9 +19,7 @@ function NavbarLoggedIn() {
 			<nav ref={navRef}>
 			    <Link to="/">Home</Link>
 				<Link to="/Profile">Profile</Link>
-				<Link to="/Logout">Logout</Link>
-				<Link to="/Changepw">Change password</Link>
-				
+				<Link to="/Logout">Logout</Link>				
 				<button
 					className="nav-btn nav-close-btn"
 					onClick={showNavbar}>

@@ -10,7 +10,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {UserContext} from './UserContext';
 import Logout from './templates/logout';
 import Profile from './templates/profile';
-import Changepw from './templates/changepw';
 export default function App() {
   
   const [currentUser, setCurrentUser] = useState(null);
@@ -42,8 +41,11 @@ if(currentUser){
       <UserContext.Provider value={userValue}>
         <Routes>
             <Route path="/" element={<Home coins={coins} />}/>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />  
+            <Route path="/coin" element={<Coin />}>
+              <Route path=":coinId" element={<Coin />} />
+            </Route>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/logout" element={<Logout />} />  
         </Routes>   
       </UserContext.Provider>       
     </BrowserRouter>
@@ -55,9 +57,12 @@ if(currentUser){
   <Navbar />
     <UserContext.Provider value={userValue}>
       <Routes>
-          <Route path="/" element={<Home coins={coins} />}/>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />  
+      <Route path="/" element={<Home coins={coins} />}/>
+      <Route path="/coin" element={<Coin />}>
+        <Route path=":coinId" element={<Coin />} />
+      </Route>
+      <Route path="/login" element={<Login/>}/>
+      <Route path="/register" element={<Register />} />  
       </Routes>   
     </UserContext.Provider>       
   </BrowserRouter>
