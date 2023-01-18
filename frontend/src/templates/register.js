@@ -70,7 +70,7 @@ export default function Register() {
     try{
       const data=await axios.post(`${baseUrl}/users`,{firstname, lastname, adress, city, country, phonenumber, email, password})
       setUsersList([...usersList, data.data]);
-      alert("Uspesna registracija!")
+      window.location.href = "/login";
       
     }catch(err){
       console.error(err.message);

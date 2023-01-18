@@ -3,6 +3,7 @@ import Register from './templates/register';
 import Navbar from './templates/navbar';
 import NavbarLoggedIn from './templates/navbarLogged';
 import Home from './templates/home';
+import Coin from './routes/Coin';
 import React, {useMemo, useState, useEffect} from 'react';
 import axios from "axios";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -23,7 +24,7 @@ export default function App() {
   useEffect(() => {
     axios.get(url).then((response) => {
       setCoins(response.data)
-      console.log(response.data[0])
+      //console.log(response.data[0])
 
     }).catch((error) => {
       console.log(error)
@@ -41,9 +42,8 @@ if(currentUser){
       <UserContext.Provider value={userValue}>
         <Routes>
             <Route path="/" element={<Home coins={coins} />}/>
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/logout" element={<Logout />} />  
-            <Route path="/changepw" element={<Changepw />} />  
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />  
         </Routes>   
       </UserContext.Provider>       
     </BrowserRouter>
