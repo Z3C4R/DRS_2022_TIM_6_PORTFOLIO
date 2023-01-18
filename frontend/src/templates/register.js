@@ -4,9 +4,7 @@ import "./register.css";
 import { UserContext } from "../UserContext";
 import { useNavigate } from "react-router-dom";
 
-
 const baseUrl="http://localhost:5000"
-
 
 export default function Register() {
   

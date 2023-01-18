@@ -6,10 +6,8 @@ function Logout(){
 
     const {currentUser,setCurrentUser}= useContext(UserContext);
 
-    console.log(currentUser);
     setCurrentUser(null);
-    console.log(currentUser);
-
+    
     return(
         <Navigate to="/login" replace={true} />
         )
