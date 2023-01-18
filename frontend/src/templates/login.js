@@ -76,7 +76,7 @@ function Login(){
     try{
       
       console.log("Loged in!");
-      alert("Login uspeo!");
+      window.location.href = "/";
 
     }catch(err){
       console.error(err.message);
