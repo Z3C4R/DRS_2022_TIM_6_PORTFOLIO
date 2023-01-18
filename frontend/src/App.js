@@ -1,13 +1,15 @@
 import Login from './templates/login';
 import Register from './templates/register';
 import Navbar from './templates/navbar';
+import NavbarLoggedIn from './templates/navbarLogged';
 import Home from './templates/home';
 import React, {useMemo, useState, useEffect} from 'react';
 import axios from "axios";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {UserContext} from './UserContext';
-
-
+import Logout from './templates/logout';
+import Profile from './templates/profile';
+import Changepw from './templates/changepw';
 export default function App() {
   
   const [currentUser, setCurrentUser] = useState(null);
@@ -16,7 +18,7 @@ export default function App() {
 
   const [coins, setCoins] = useState([])
 
-  const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false'
+  const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false'
  
   useEffect(() => {
     axios.get(url).then((response) => {
@@ -30,20 +32,39 @@ export default function App() {
   }, [])
   
 
+
+if(currentUser){
+
   return (
     <BrowserRouter>
-      <Navbar />
+    <NavbarLoggedIn />
       <UserContext.Provider value={userValue}>
         <Routes>
             <Route path="/" element={<Home coins={coins} />}/>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />  
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/logout" element={<Logout />} />  
+            <Route path="/changepw" element={<Changepw />} />  
         </Routes>   
       </UserContext.Provider>       
     </BrowserRouter>
-    
-  );
+  )
+}
+
+ return (
+  <BrowserRouter>
+  <Navbar />
+    <UserContext.Provider value={userValue}>
+      <Routes>
+          <Route path="/" element={<Home coins={coins} />}/>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />  
+      </Routes>   
+    </UserContext.Provider>       
+  </BrowserRouter>
+)
+
+
 
   
-}
+} 
 

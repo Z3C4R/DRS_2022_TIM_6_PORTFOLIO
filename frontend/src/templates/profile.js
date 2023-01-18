@@ -1,35 +1,29 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
-import "./register.css";
+import "./profile.css";
 import { UserContext } from "../UserContext";
+import { useNavigate } from "react-router-dom";
 
 
 const baseUrl="http://localhost:5000"
 
 
-export default function Register() {
-  
-  const [firstname, setFirstname]=useState("");
-  const [lastname, setLastname]=useState("");
-  const [adress, setAdress]=useState("");
-  const [city, setCity]=useState("");
-  const [country, setCountry]=useState("");
-  const [phonenumber, setPhonenumber]=useState("");
-  const [email, setEmail]=useState("");
-  const [password, setPassword]=useState("");
-  
-  const[usersList, setUsersList]=useState([]);
-  
+export default function Profile() {
+    
   const {currentUser, setCurrentUser}=useContext(UserContext);
 
-  const fetchUsers=async()=>{
-    const data=await axios.get(`${baseUrl}/users`)
-    const {Users}=data.data
-    setUsersList(Users);
-    console.log("DATA: ", Users)
-   
-  }
+  const navigate = useNavigate();
 
+  const [firstname, setFirstname]=useState(currentUser.Firstname);
+  const [lastname, setLastname]=useState(currentUser.Lastname);
+  const [adress, setAdress]=useState(currentUser.Adress);
+  const [city, setCity]=useState(currentUser.City);
+  const [country, setCountry]=useState(currentUser.Country);
+  const [phonenumber, setPhonenumber]=useState(currentUser.Phonenumber);
+  const [email, setEmail]=useState(currentUser.Email);
+  const [password, setPassword]=useState(currentUser.Password);
+  
+  const[usersList, setUsersList]=useState([]);
 
   function emptyCheck(){
     if(firstname === "" || lastname === "" || adress === "" || city === "" || country === "" || phonenumber === "" || email === "" || password === ""){
@@ -51,42 +45,30 @@ export default function Register() {
     }
   }
 
-  var result = usersList.filter(user => {
-    return user.Email === email;
-    });
-
   const handleSubmit = async (e) =>{
+
     e.preventDefault();
 
     if(emptyCheck() === true) return;
     if(letterCheck() === true) return;
-    if(result.length === 0) {
-      console.log("Email is free!");
-    }else {
-        alert("Mail is taken !");
-        return;
-    }
+
+    currentUser.Firstname = firstname;
+    currentUser.Lastname = lastname;
+    currentUser.Adress = adress;
+    currentUser.City = city;
+    currentUser.Country = country;
+    currentUser.Phonenumber = phonenumber;
 
     try{
-      const data=await axios.post(`${baseUrl}/users`,{firstname, lastname, adress, city, country, phonenumber, email, password})
+      const data=await axios.put(`${baseUrl}/users/${currentUser.id}`,{firstname, lastname, adress, city, country, phonenumber, email, password})
+      
       setUsersList([...usersList, data.data]);
-      alert("Uspesna registracija!")
+      alert("Uspesno izmenjen profil!")
       
     }catch(err){
       console.error(err.message);
     }
     
-  }
-  
-  const handleDelete = async (id) => {
-    try{
-      await axios.delete(`${baseUrl}/users/${id}`)
-      const updatedList = usersList.filter(event => event.id === id)
-      setUsersList(updatedList);
-
-    } catch(err){
-      console.error(err.message)
-    }
   }
 
 
@@ -115,16 +97,17 @@ export default function Register() {
     setPassword(e.target.value);
   }
   
-useEffect(()=>{
-  fetchUsers();
-},[])
+  const navigateChangePassword = () => {
+    navigate('/changepw');
+  };
 
   return(
+    
     <div>
       <center>
         <section>        
         <form onSubmit={handleSubmit}>
-        <h2 align="center">Sign Up</h2>
+        <h2 align="center">Profile</h2>
         <div className="form-group">
             <label htmlFor="firstname">First Name: </label>
             <input
@@ -222,23 +205,14 @@ useEffect(()=>{
               />
             </div>
             <br />
+            
             <button type="submit" className="btn btn-primary">Submit</button>
-            <h3>Loged in:</h3>
+            <h3>Loged in:{currentUser.Firstname}</h3>
             <pre>{JSON.stringify(currentUser, null,2)}</pre>
           </form>
           </section>
-          <section align="right">
-          <div>
-            <h2>Lista usera</h2>
-		       <ul>
-              {usersList.map(Users => {
-                return(
-                  <li key={Users.id}>{Users.Firstname} {Users.Lastname} <button onClick={() => handleDelete(Users.id)}>X</button> </li>
-                )
-              })}
-           </ul>
-          </div>  
-        </section>
+
+          <button onClick={ navigateChangePassword}>Change password</button><br></br>
         </center>
         </div>
     )
