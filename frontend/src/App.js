@@ -42,8 +42,11 @@ if(currentUser){
       <UserContext.Provider value={userValue}>
         <Routes>
             <Route path="/" element={<Home coins={coins} />}/>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />  
+            <Route path="/coin" element={<Coin />}>
+              <Route path=":coinId" element={<Coin />} />
+              </Route>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/logout" element={<Logout />} />  
         </Routes>   
       </UserContext.Provider>       
     </BrowserRouter>
@@ -56,6 +59,9 @@ if(currentUser){
     <UserContext.Provider value={userValue}>
       <Routes>
           <Route path="/" element={<Home coins={coins} />}/>
+          <Route path="/coin" element={<Coin />}>
+              <Route path=":coinId" element={<Coin />} />
+              </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />  
       </Routes>   
