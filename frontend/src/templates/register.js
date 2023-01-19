@@ -80,16 +80,7 @@ export default function Register() {
     
   }
   
-  const handleDelete = async (id) => {
-    try{
-      await axios.delete(`${baseUrl}/users/${id}`)
-      const updatedList = usersList.filter(event => event.id === id)
-      setUsersList(updatedList);
-
-    } catch(err){
-      console.error(err.message)
-    }
-  }
+  
 
 
   const handleChange1= e =>{
@@ -248,22 +239,8 @@ useEffect(()=>{
             </div>
             <br />
             <button type="submit" className="btn-register">Sign up</button>
-            <h3>Loged in:</h3>
-            <pre>{JSON.stringify(currentUser, null,2)}</pre>
           </form>
           </section>
-          <section align="right">
-          <div>
-            <h2>Lista usera</h2>
-		       <ul>
-              {usersList.map(Users => {
-                return(
-                  <li key={Users.id}>{Users.Firstname} {Users.Lastname} <button onClick={() => handleDelete(Users.id)} className="btn-x">X</button> </li>
-                )
-              })}
-           </ul>
-          </div>  
-        </section>
         </center>
         </div>
     )

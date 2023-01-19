@@ -16,7 +16,7 @@ export default function Wallet() {
     const[coinsList, setCointsList]=useState([]);
 
 
-    const fetchUsers=async()=>{
+    const fetchCoins=async()=>{
         const data=await axios.get(`${baseUrl}/coins`)
         const {coins}=data.data
         setCointsList(coins);
@@ -32,9 +32,18 @@ export default function Wallet() {
         console.log(result);
         
       useEffect(()=>{
-        fetchUsers();
+        fetchCoins();
       },[])
       
+      const handleDelete = async (id) => {
+        try{
+          await axios.delete(`${baseUrl}/coins/${id}`)
+          fetchCoins();
+    
+        } catch(err){
+          console.error(err.message)
+        }
+      }
 
       return(
 
@@ -54,6 +63,7 @@ export default function Wallet() {
           <td>{coin.CoinValue}</td>
           <td>{coin.Owner}</td>
           <td>{coin.created_at}</td>
+          <td><button onClick={() => handleDelete(coin.id)}>Sell</button></td>
         </tr>
       ))}
     </tbody>

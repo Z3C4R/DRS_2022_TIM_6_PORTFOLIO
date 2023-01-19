@@ -126,8 +126,6 @@ function Login(){
 
                     <br />
                     <button type="submit" className="btn-login">Login</button>
-                    <h3>Loged in:</h3>
-                    <pre>{JSON.stringify(currentUser, null,2)}</pre>
                 </form>
             </div>
             </center>

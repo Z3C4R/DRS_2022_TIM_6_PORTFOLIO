@@ -2,13 +2,16 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import "./profile.css";
 import { UserContext } from "../UserContext";
+import { useNavigate } from "react-router-dom";
+
 
 const baseUrl="http://localhost:5000"
 
 
 export default function Profile() {
     
-  const {currentUser}=useContext(UserContext);
+  const {currentUser, setCurrentUser}=useContext(UserContext);
+  const navigate= useNavigate();
 
 
   const [firstname, setFirstname]=useState(currentUser.Firstname);
@@ -66,6 +69,17 @@ export default function Profile() {
       console.error(err.message);
     }
     
+  }
+
+  const handleDelete = async (id) => {
+    try{
+      await axios.delete(`${baseUrl}/users/${id}`)
+      setCurrentUser(null);
+      navigate("/");
+
+    } catch(err){
+      console.error(err.message)
+    }
   }
 
 
@@ -221,7 +235,7 @@ export default function Profile() {
             <br />
             
             <button type="submit" className="btn-edit">Edit profile</button>
-            <h3>Loged in:{currentUser.Firstname}</h3>
+            <button onClick={() => handleDelete(currentUser.id)} className="btn-delete">Delete profile</button>
             <pre><table className="table">
     <thead>
       <tr>
