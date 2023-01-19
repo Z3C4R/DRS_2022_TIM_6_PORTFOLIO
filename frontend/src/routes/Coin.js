@@ -40,7 +40,7 @@ const Coin = () => {
 
         try{
             
-            const data=await axios.post(`${baseUrl}/buy-coin`,{ownerId,coinId,coinAmount});
+            const data=await axios.post(`${baseUrl}/buy-coin`,{ownerId,coinId,coinAmount,coinValue});
             alert("Uspesno obavljena kupovina!");
     
         }catch(err){

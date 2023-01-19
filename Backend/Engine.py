@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+import sqlalchemy
 
 Engine=Flask(__name__)
 Engine.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://postgres:1234@localhost/Portfolio'
@@ -94,16 +95,27 @@ def update_coin(id):
     db.session.commit()
     return {'coin': format_coin(coin.one())}
 
-#buy coin
+#buy coin when it exists
 @Engine.route('/buy-coin',methods = ['POST'])
 def buy_coin():
     ownerId=str(request.json['ownerId'])
     coinId=request.json['coinId']
     amount=request.json['coinAmount']
-    coin = Coin.query.filter_by(ownerId = ownerId,coinName = coinId).one()
-    coin.coinAmount = str(float(coin.coinAmount) + float(amount))
+    coinValue=request.json['coinValue']
+
+    try:
+        coin = Coin.query.filter_by(ownerId = ownerId,coinName = coinId).one()
+        coin.coinAmount = str(float(coin.coinAmount) + float(amount))
+    except sqlalchemy.exc.NoResultFound:
+        db.session.commit()
+   
+    coin=Coin(ownerId,coinId,coinValue,amount)
+    db.session.add(coin)
     db.session.commit()
+
     return {'coin': format_coin(coin)}
+
+
 
 class User(db.Model):
     id=db.Column(db.Integer, primary_key=True)
