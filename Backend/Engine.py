@@ -94,6 +94,17 @@ def update_coin(id):
     db.session.commit()
     return {'coin': format_coin(coin.one())}
 
+#buy coin
+@Engine.route('/buy-coin',methods = ['POST'])
+def buy_coin():
+    ownerId=str(request.json['ownerId'])
+    coinId=request.json['coinId']
+    amount=request.json['coinAmount']
+    coin = Coin.query.filter_by(ownerId = ownerId,coinName = coinId).one()
+    coin.coinAmount = str(float(coin.coinAmount) + float(amount))
+    db.session.commit()
+    return {'coin': format_coin(coin)}
+
 class User(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     firstname=db.Column(db.String(100), nullable=False)
@@ -150,6 +161,7 @@ def get_user(id):
     user = User.query.filter_by(id=id).one()
     formatted_user = format_user(user)
     return {'users' : formatted_user}
+
 
 # delete user 
 @Engine.route('/users/<id>', methods = ['DELETE'])

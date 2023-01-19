@@ -13,15 +13,18 @@ const Coin = () => {
     const params = useParams();
     const [coin, setCoin] = useState({});
     const [ownerId, setOwnerId]=useState(null);
+
     const [coinName, setCoinName]=useState("");
+    const [coinId, setCoinId]=useState(params.coinId);
     const [coinValue, setCoinValue]=useState("");
-    
-    const [coinAmount,setCoinAmount] = useState("");
+    const [coinsList, setCointsList]=useState([]);
+
+    const [coinAmount,setCoinAmount] = useState(0);
 
     const url = `https://api.coingecko.com/api/v3/coins/${params.coinId}`
 
-
     useEffect(() => {
+        console.log(coinId);
         axios.get(url).then((res) => {
             setCoin(res.data)
             setOwnerId(currentUser.id);
@@ -31,14 +34,13 @@ const Coin = () => {
             console.log(error)
         })    
         }, [])
-    
 
     const handleSubmit = async (e) =>{
         e.preventDefault();      
 
         try{
             
-            const data=await axios.post(`${baseUrl}/coins`,{ownerId, coinName, coinValue});
+            const data=await axios.post(`${baseUrl}/buy-coin`,{ownerId,coinId,coinAmount});
             alert("Uspesno obavljena kupovina!");
     
         }catch(err){
@@ -47,12 +49,11 @@ const Coin = () => {
         
       }
 
-    
-      
   const handleChange1= e =>{
     setCoinAmount(e.target.value);
 
   }
+
 
         return (
             <div>
