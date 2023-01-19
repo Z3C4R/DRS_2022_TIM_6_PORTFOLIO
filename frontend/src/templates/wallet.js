@@ -14,6 +14,7 @@ export default function Wallet() {
 
     const {currentUser}=useContext(UserContext);
     const[coinsList, setCointsList]=useState([]);
+    let balance;
 
 
     const fetchCoins=async()=>{
@@ -28,6 +29,9 @@ export default function Wallet() {
         return coin.Owner === currentUser.id.toString();
     });
 
+    result.forEach(coin => {
+        balance=balance + parseInt(coin.CoinValue);
+    });
 
         console.log(result);
         
@@ -47,12 +51,11 @@ export default function Wallet() {
 
       return(
 
-    <div><table className="table">
+    <div align="center"><table className="table">
     <thead>
       <tr>
         <th>Coin Name</th>
         <th>Coin Value</th>
-        <th>Owner</th>
         <th>Created At</th>
       </tr>
     </thead>
@@ -61,13 +64,14 @@ export default function Wallet() {
         <tr key={coin.id}>
           <td>{coin.CoinName}</td>
           <td>{coin.CoinValue}</td>
-          <td>{coin.Owner}</td>
           <td>{coin.created_at}</td>
           <td><button onClick={() => handleDelete(coin.id)}>Sell</button></td>
         </tr>
       ))}
     </tbody>
-  </table></div>
+  </table>
+  <div>Balance: {balance}</div>
+  </div>
 
 
       )

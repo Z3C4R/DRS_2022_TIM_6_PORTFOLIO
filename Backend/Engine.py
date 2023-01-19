@@ -21,15 +21,17 @@ class Coin(db.Model):
     ownerId=db.Column(db.String(100), nullable=False)
     coinName=db.Column(db.String(100), nullable=False)
     coinValue=db.Column(db.String(100), nullable=False)
+    coinAmount=db.Column(db.String(100), nullable=False)
     created_at=db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
-        return f"Coin: {self.ownerId+','+self.coinName+','+self.coinValue}"
+        return f"Coin: {self.ownerId+','+self.coinName+','+self.coinValue+','+self.coinAmount}"
 
-    def __init__(self, ownerId, coinName, coinValue):
+    def __init__(self, ownerId, coinName, coinValue, coinAmount):
         self.ownerId=ownerId,
         self.coinName=coinName,
-        self.coinValue=coinValue
+        self.coinValue=coinValue,
+        self.coinAmount=coinAmount
        
 
 def format_coin(coin):
@@ -38,6 +40,7 @@ def format_coin(coin):
         "Owner":coin.ownerId,
         "CoinName":coin.coinName,
         "CoinValue":coin.coinValue,
+        "CoinAmount":coin.coinAmount,
         "created_at": coin.created_at
     }
 
@@ -48,7 +51,8 @@ def create_coin():
     ownerId=request.json['ownerId']
     coinName=request.json['coinName']
     coinValue=request.json['coinValue']
-    coin=Coin(ownerId,coinName,coinValue)
+    coinAmount=request.json['coinAmount']
+    coin=Coin(ownerId,coinName,coinValue,coinAmount)
     db.session.add(coin)
     db.session.commit()
     return format_coin(coin)
@@ -84,8 +88,9 @@ def update_coin(id):
     ownerId=request.json['ownerId']
     coinName=request.json['coinName']
     coinValue=request.json['coinValue']
+    coinAmount=request.json['coinAmount']
     coin=Coin(ownerId,coinName,coinValue)
-    coin.update(dict(ownerId=ownerId, coinName=coinName, coinValue=coinValue, created_at = datetime.utcnow()))
+    coin.update(dict(ownerId=ownerId, coinName=coinName, coinValue=coinValue, coinAmount=coinAmount, created_at = datetime.utcnow()))
     db.session.commit()
     return {'coin': format_coin(coin.one())}
 
