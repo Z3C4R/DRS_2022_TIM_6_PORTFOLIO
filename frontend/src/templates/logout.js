@@ -5,8 +5,9 @@ import { Navigate } from "react-router-dom";
 function Logout(){
 
     const {currentUser,setCurrentUser}= useContext(UserContext);
-
+    
     setCurrentUser(null);
+    
     
     return(
         <Navigate to="/login" replace={true} />
