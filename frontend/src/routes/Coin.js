@@ -16,6 +16,8 @@ const Coin = () => {
     const [coinName, setCoinName]=useState("");
     const [coinValue, setCoinValue]=useState("");
     
+    const [coinAmount,setCoinAmount] = useState("");
+
     const url = `https://api.coingecko.com/api/v3/coins/${params.coinId}`
 
 
@@ -29,14 +31,11 @@ const Coin = () => {
             console.log(error)
         })    
         }, [])
-
-        
+    
 
     const handleSubmit = async (e) =>{
         e.preventDefault();      
-        
-    
-        
+
         try{
             
             const data=await axios.post(`${baseUrl}/coins`,{ownerId, coinName, coinValue});
@@ -49,6 +48,12 @@ const Coin = () => {
       }
 
     
+      
+  const handleChange1= e =>{
+    setCoinAmount(e.target.value);
+
+  }
+
         return (
             <div>
                 <div className='coin-container'>
@@ -65,11 +70,18 @@ const Coin = () => {
                                 {coin.image ?<img src={coin.image.small} alt='' /> :null}
                                 <p>{coin.name}</p>
                                 {coin.symbol ? <p>{coin.symbol.toUpperCase()}/USD</p>: null}
+                              
                             </div>
                             <div className='coin-price'>
                                 {coin.market_data?.current_price? <h1>${coin.market_data.current_price.usd.toLocaleString()} </h1> :null}
-                                
+                                <input
+                                    onChange={handleChange1}
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter amount"
+                                />
                             </div>
+                            
                             <div align="right">
                                 <button type="submit" className='buttonBuy' >BUY</button>
                             </div>
