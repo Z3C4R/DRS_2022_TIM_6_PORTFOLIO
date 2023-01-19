@@ -71,7 +71,7 @@ const Coin = () => {
                                 
                             </div>
                             <div align="right">
-                                <button type="submit">BUY</button>
+                                <button type="submit" className='buttonBuy' >BUY</button>
                             </div>
                         </div>
                     </div>

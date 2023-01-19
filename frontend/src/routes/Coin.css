@@ -4,7 +4,7 @@
     padding: .7rem 1rem;
     display: flex;
     flex-direction: column;
-    background-color:rgb(148, 148, 155) ;
+    background-color: #ced0da ;
     box-shadow: 0px 0px 12px skyblue;
     border-radius: 8px;
 
@@ -77,6 +77,14 @@ th{
     margin: 1rem 0;
 }
 
+.buttonBuy{
+    border: 1px solid #5767aa;
+    box-shadow: 0px 0px 8px#5767aa;
+    background-color:#5767aa;
+    border-radius: 5px;
+    padding: 1rem;
+
+}
 @media screen and (max-width: 700px){
     .coin-container .content{
         max-width: 100%;

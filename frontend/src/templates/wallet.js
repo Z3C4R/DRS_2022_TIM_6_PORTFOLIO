@@ -38,7 +38,26 @@ export default function Wallet() {
 
       return(
 
-    <div>{JSON.stringify(result, null,2)}</div>
+    <div><table className="table">
+    <thead>
+      <tr>
+        <th>Coin Name</th>
+        <th>Coin Value</th>
+        <th>Owner</th>
+        <th>Created At</th>
+      </tr>
+    </thead>
+    <tbody>
+      {result.map((coin) => (
+        <tr key={coin.id}>
+          <td>{coin.CoinName}</td>
+          <td>{coin.CoinValue}</td>
+          <td>{coin.Owner}</td>
+          <td>{coin.created_at}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table></div>
 
 
       )

@@ -102,107 +102,152 @@ export default function Profile() {
         <section>        
         <form onSubmit={handleSubmit}>
         <h2 align="center">Profile</h2>
-        <div className="form-group">
-            <label htmlFor="firstname">First Name: </label>
-            <input
-                onChange={handleChange1}
-                type="text"
-                className="form-control"
-                id="firstname"
-                name="firstname"
-                placeholder="Enter first name"
-                value={firstname}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="lastname">Last Name: </label>
-              <input
-               onChange={handleChange2}
-                type="text"
-                className="form-control"
-                id="lastname"
-                name="lastname"
-                placeholder="Enter last name"
-                value={lastname}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="address">Address: </label>
-              <input
-                onChange={handleChange3}
-                type="text"
-                className="form-control"
-                id="address"
-                name="address"
-                placeholder="Enter address"
-                value={adress}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="city">City: </label>
-              <input
-                onChange={handleChange4}
-                type="text"
-                className="form-control"
-                id="city"
-                name="city"
-                placeholder="Enter city"
-                value={city}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="country">Country: </label>
-              <input
-                onChange={handleChange5}
-                type="text"
-                className="form-control"
-                id="country"
-                name="country"
-                placeholder="Enter country"
-                value={country}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="phonenumber">Phone number: </label>
-              <input
-                onChange={handleChange6}
-                type="text"
-                className="form-control"
-                id="phonenumber"
-                name="phonenumber"
-                placeholder="Enter phone number"
-                value={phonenumber}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">Email: </label>
-              <input
-                onChange={handleChange7}
-                type="email"
-                className="form-control"
-                id="email"
-                name="email"
-                placeholder="Enter email"
-                value={email}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password: </label>
-              <input
-                onChange={handleChange8}
-                type="password"
-                className="form-control"
-                id="password"
-                name="password"
-                placeholder="Enter password"
-                value={password}
-              />
-            </div>
+        <div><table className="table">
+    <tbody>
+      <tr>
+        <td>First Name:</td>
+        <td>
+          <input
+            onChange={handleChange1}
+            type="text"
+            className="form-control"
+            id="firstname"
+            name="firstname"
+            placeholder="Enter first name"
+            value={firstname}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>Last Name:</td>
+        <td>
+          <input
+            onChange={handleChange2}
+            type="text"
+            className="form-control"
+            id="lastname"
+            name="lastname"
+            placeholder="Enter last name"
+            value={lastname}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>Address:</td>
+        <td>
+          <input
+            onChange={handleChange3}
+            type="text"
+            className="form-control"
+            id="address"
+            name="address"
+            placeholder="Enter address"
+            value={adress}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>City:</td>
+        <td>
+          <input
+            onChange={handleChange4}
+            type="text"
+            className="form-control"
+            id="city"
+            name="city"
+            placeholder="Enter city"
+            value={city}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>Country:</td>
+        <td>
+          <input
+            onChange={handleChange5}
+            type="text"
+            className="form-control"
+            id="country"
+            name="country"
+            placeholder="Enter country"
+            value={country}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>Phone Number:</td>
+        <td>
+          <input
+            onChange={handleChange6}
+            type="text"
+            className="form-control"
+            id="phonenumber"
+            name="phonenumber"
+            placeholder="Enter phone number"
+            value={phonenumber}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>Email:</td>
+        <td>
+          <input
+            onChange={handleChange7}
+            type="email"
+            className="form-control"
+            id="email"
+            name="email"
+            placeholder="Enter email"
+            value={email}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>Password:</td>
+        <td>
+          <input
+            onChange={handleChange8}
+            type="password"
+            className="form-control"
+            id="password"
+            name="password"
+            placeholder="Enter password"
+            value={password}
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table></div>
             <br />
             
-            <button type="submit" className="btn btn-primary">Edit profile</button>
+            <button type="submit" className="btn-edit">Edit profile</button>
             <h3>Loged in:{currentUser.Firstname}</h3>
-            <pre>{JSON.stringify(currentUser, null,2)}</pre>
+            <pre><table className="table">
+    <thead>
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Email</th>
+        <th>Adress</th>
+        <th>City</th>
+        <th>Country</th>
+        <th>Phonenumber</th>
+        <th>Created At</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{currentUser.Firstname}</td>
+        <td>{currentUser.Lastname}</td>
+        <td>{currentUser.Email}</td>
+        <td>{currentUser.Adress}</td>
+        <td>{currentUser.City}</td>
+        <td>{currentUser.Country}</td>
+        <td>{currentUser.Phonenumber}</td>
+        <td>{currentUser.created_at}</td>
+      </tr>
+    </tbody>
+  </table></pre>
           </form>
           </section>
         </center>

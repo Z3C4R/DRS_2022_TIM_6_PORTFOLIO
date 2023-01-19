@@ -91,34 +91,41 @@ function Login(){
             <div className="login">
             <form onSubmit={handleSubmit}>
                 <h2 align="center">Login</h2>
-                <div className="form-group">
-                <label htmlFor="email">Email Address: </label>
-                <input
-                    onChange={handleChange7}
-                    align = "center"
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    name="email"
-                    value={email}
-                    placeholder="Enter email"
-               />
-                </div>
-                 <div className="form-group">
-                 <label htmlFor="password">Password: </label>
-                 <input
-                    onChange={handleChange8}
-                    align = "center"
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    name="password"
-                    value={password}
-                    placeholder="Enter password"
-                    />
-                    </div>
+                <table className="table">
+    <tbody>
+      <tr>
+        <td>Email Address:</td>
+        <td>
+          <input
+            onChange={handleChange7}
+            type="email"
+            className="form-control"
+            id="email"
+            name="email"
+            placeholder="Enter email"
+            value={email}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>Password:</td>
+        <td>
+          <input
+            onChange={handleChange8}
+            type="password"
+            className="form-control"
+            id="password"
+            name="password"
+            placeholder="Enter password"
+            value={password}
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
                     <br />
-                    <button type="submit" className="btn btn-primary">Login</button>
+                    <button type="submit" className="btn-login">Login</button>
                     <h3>Loged in:</h3>
                     <pre>{JSON.stringify(currentUser, null,2)}</pre>
                 </form>
