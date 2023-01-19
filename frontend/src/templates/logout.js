@@ -8,6 +8,7 @@ function Logout(){
     
     setCurrentUser(null);
     
+    
     return(
         <Navigate to="/login" replace={true} />
         )

@@ -10,6 +10,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {UserContext} from './UserContext';
 import Logout from './templates/logout';
 import Profile from './templates/profile';
+import Wallet from './templates/wallet';
+
 export default function App() {
   
   const [currentUser, setCurrentUser] = useState(null);
@@ -46,6 +48,7 @@ if(currentUser){
             </Route>
             <Route path="/profile" element={<Profile />} />
             <Route path="/logout" element={<Logout />} />  
+            <Route path="/wallet" element={<Wallet/>} />
         </Routes>   
       </UserContext.Provider>       
     </BrowserRouter>
