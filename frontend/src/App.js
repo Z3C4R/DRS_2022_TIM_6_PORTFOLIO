@@ -47,8 +47,8 @@ if(currentUser){
               <Route path=":coinId" element={<Coin />} />
             </Route>
             <Route path="/profile" element={<Profile />} />
-            <Route path="/logout" element={<Logout />} />  
             <Route path="/wallet" element={<Wallet/>} />
+            <Route path="/logout" element={<Logout />} />  
         </Routes>   
       </UserContext.Provider>       
     </BrowserRouter>
