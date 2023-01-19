@@ -14,7 +14,7 @@ export default function Wallet() {
 
     const {currentUser}=useContext(UserContext);
     const[coinsList, setCointsList]=useState([]);
-    let balance;
+    let balance = 0;
 
 
     const fetchCoins=async()=>{
@@ -27,14 +27,20 @@ export default function Wallet() {
       
     var result = coinsList.filter(coin => {
         return coin.Owner === currentUser.id.toString();
+        
     });
+
 
     result.forEach(coin => {
-        balance=balance + parseInt(coin.CoinValue);
+        balance=balance + parseFloat(coin.CoinValue);
+        
+        
+        console.log("coin:", {coin});
+        console.log(coin.CoinValue);
+        console.log("balance", {balance});
     });
 
-        console.log(result);
-        
+
       useEffect(()=>{
         fetchCoins();
       },[])
