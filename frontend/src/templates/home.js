@@ -17,7 +17,7 @@ const Home = (props) => {
     return (
       <div className ='container'> 
         <div >
-          <input type="text" placeholder="Search here" 
+          <input className='searchTerm' type="text" placeholder="Search here" 
             onChange={handleChange} value={searchInput} />
          </div>
             <div>

@@ -16,6 +16,14 @@
 
 }
 
+input[type=text].searchTerm{
+    width: 100%;
+    border-radius: 8px;
+    font-weight: 700;
+    display: flex;
+    box-shadow: 0px 0px 12px #18191b;
+}
+
 
 .coin-name{
     margin-left: -4rem;
