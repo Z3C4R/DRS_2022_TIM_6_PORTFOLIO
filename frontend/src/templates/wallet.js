@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-
+import "./wallet.css";
 import { UserContext } from "../UserContext";
 import { useNavigate } from "react-router-dom";
 
@@ -14,7 +14,7 @@ export default function Wallet() {
 
     const {currentUser}=useContext(UserContext);
     const[coinsList, setCointsList]=useState([]);
-    let balance = 0;
+    
 
 
     const fetchCoins=async()=>{
@@ -30,7 +30,7 @@ export default function Wallet() {
         
     });
 
-
+    let balance = 0;
     result.forEach(coin => {
         balance=balance + parseFloat(coin.CoinValue);
         
@@ -65,18 +65,19 @@ export default function Wallet() {
         <th>Created At</th>
       </tr>
     </thead>
+    
     <tbody>
       {result.map((coin) => (
         <tr key={coin.id}>
           <td>{coin.CoinName}</td>
           <td>{coin.CoinValue}</td>
           <td>{coin.created_at}</td>
-          <td><button onClick={() => handleDelete(coin.id)}>Sell</button></td>
+          <td><button className="dugmeWallet" onClick={() => handleDelete(coin.id)}>Sell</button></td>
         </tr>
       ))}
     </tbody>
   </table>
-  <div>Balance: {balance}</div>
+  <div className="balance">Balance: {balance}</div>
   </div>
 
 
