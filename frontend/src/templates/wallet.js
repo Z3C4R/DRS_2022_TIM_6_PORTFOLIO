@@ -32,12 +32,7 @@ export default function Wallet() {
 
     let balance = 0;
     result.forEach(coin => {
-        balance=balance + parseFloat(coin.CoinValue);
-        
-        
-        console.log("coin:", {coin});
-        console.log(coin.CoinValue);
-        console.log("balance", {balance});
+      balance = balance + parseFloat(coin.CoinValue.replace(",", ""));
     });
 
 
