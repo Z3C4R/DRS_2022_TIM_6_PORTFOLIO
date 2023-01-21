@@ -1,13 +1,16 @@
 import React,{ useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import { UserContext } from "../UserContext";
 import './Coin.css'
 
+
 const baseUrl="http://localhost:5000"
 
 const Coin = () => {
+
+    const navigate = useNavigate();
 
     const {currentUser}=useContext(UserContext);
     const params = useParams();
@@ -15,16 +18,14 @@ const Coin = () => {
     const [ownerId, setOwnerId]=useState(null);
 
     const [coinName, setCoinName]=useState("");
-    const [coinId, setCoinId]=useState(params.coinId);
     const [coinValue, setCoinValue]=useState("");
-    const [coinsList, setCointsList]=useState([]);
+    const [transType]=useState("Bought");
 
     const [coinAmount,setCoinAmount] = useState(0);
 
     const url = `https://api.coingecko.com/api/v3/coins/${params.coinId}`
 
     useEffect(() => {
-        console.log(coinId);
         axios.get(url).then((res) => {
             setCoin(res.data)
             setOwnerId(currentUser.id);
@@ -34,13 +35,22 @@ const Coin = () => {
             console.log(error)
         })    
         }, [])
+        console.log(coinName);
 
     const handleSubmit = async (e) =>{
         e.preventDefault();      
 
+        if(!currentUser){
+            navigate("/login");
+            alert("Morate biti ulogovani!");
+            return;
+        }
+
         try{
             
-            const data=await axios.post(`${baseUrl}/buy-coin`,{ownerId,coinId,coinAmount,coinValue});
+            const data=await axios.post(`${baseUrl}/buy-coin`,{ownerId,coinName,coinAmount,coinValue});
+            const data2=await axios.post(`${baseUrl}/trans`,{ownerId,coinName,coinValue,coinAmount,transType});
+
             alert("Uspesno obavljena kupovina!");
     
         }catch(err){

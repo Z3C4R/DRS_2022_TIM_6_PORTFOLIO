@@ -17,13 +17,76 @@ def hello():
     return 'Hey!'
 
 
+class Transaction(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    ownerId=db.Column(db.String(100), nullable=False)
+    coinName=db.Column(db.String(100), nullable=False)
+    coinValue=db.Column(db.String(100), nullable=False)
+    coinAmount=db.Column(db.String(100), nullable=False)
+    transType=db.Column(db.String(100), nullable=False)
+    created_at=db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"Coin: {self.ownerId+','+self.coinName+','+self.coinValue+','+self.coinAmount+','+self.transType}"
+
+    def __init__(self, ownerId, coinName, coinValue, coinAmount, transType):
+        self.ownerId=ownerId,
+        self.coinName=coinName,
+        self.coinValue=coinValue,
+        self.coinAmount=coinAmount,
+        self.transType=transType
+       
+
+def format_trans(trans):
+    return{
+        "id":trans.id,
+        "Owner":trans.ownerId,
+        "CoinName":trans.coinName,
+        "CoinValue":trans.coinValue,
+        "CoinAmount":trans.coinAmount,
+        "TransType":trans.transType,
+        "created_at": trans.created_at
+    }
+
+
+# create an transaction
+@Engine.route('/trans', methods=['POST'])
+def create_trans():
+    ownerId=request.json['ownerId']
+    coinName=request.json['coinName']
+    coinValue=request.json['coinValue']
+    coinAmount=request.json['coinAmount']
+    transType=request.json['transType']
+    trans=Transaction(ownerId,coinName,coinValue,coinAmount,transType)
+    db.session.add(trans)
+    db.session.commit()
+    return format_trans(trans)
+
+# get all transactions
+@Engine.route('/trans', methods=['GET'])
+def get_trans():
+    trans=Transaction.query.order_by(Transaction.id.asc()).all()    
+    trans_list = []
+    for tran in trans:
+        trans_list.append(format_trans(tran))
+    return {'trans' : trans_list}
+
+
+# delete an transactioin 
+@Engine.route('/trans/<id>', methods = ['DELETE'])
+def delete_trans(id):
+    trans = Transaction.query.filter_by(id=id).one()
+    db.session.delete(trans)
+    db.session.commit()
+    return f'Transaction (id: {id}) deleted!'
+
+
 class Coin(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     ownerId=db.Column(db.String(100), nullable=False)
     coinName=db.Column(db.String(100), nullable=False)
     coinValue=db.Column(db.String(100), nullable=False)
     coinAmount=db.Column(db.String(100), nullable=False)
-    created_at=db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
         return f"Coin: {self.ownerId+','+self.coinName+','+self.coinValue+','+self.coinAmount}"
@@ -42,7 +105,6 @@ def format_coin(coin):
         "CoinName":coin.coinName,
         "CoinValue":coin.coinValue,
         "CoinAmount":coin.coinAmount,
-        "created_at": coin.created_at
     }
 
 
@@ -89,9 +151,8 @@ def update_coin(id):
     ownerId=request.json['ownerId']
     coinName=request.json['coinName']
     coinValue=request.json['coinValue']
-    coinAmount=request.json['coinAmount']
-    coin=Coin(ownerId,coinName,coinValue)
-    coin.update(dict(ownerId=ownerId, coinName=coinName, coinValue=coinValue, coinAmount=coinAmount, created_at = datetime.utcnow()))
+    coinAmount=request.json['temp']
+    coin.update(dict(ownerId=ownerId, coinName=coinName, coinValue=coinValue, coinAmount=coinAmount))
     db.session.commit()
     return {'coin': format_coin(coin.one())}
 
@@ -99,18 +160,17 @@ def update_coin(id):
 @Engine.route('/buy-coin',methods = ['POST'])
 def buy_coin():
     ownerId=str(request.json['ownerId'])
-    coinId=request.json['coinId']
+    coinName=request.json['coinName']
     amount=request.json['coinAmount']
     coinValue=request.json['coinValue']
 
     try:
-        coin = Coin.query.filter_by(ownerId = ownerId,coinName = coinId).one()
+        coin = Coin.query.filter_by(ownerId = ownerId,coinName = coinName).one()
         coin.coinAmount = str(float(coin.coinAmount) + float(amount))
     except sqlalchemy.exc.NoResultFound:
-        db.session.commit()
+        coin=Coin(ownerId,coinName,coinValue,amount)
+        db.session.add(coin)
    
-    coin=Coin(ownerId,coinId,coinValue,amount)
-    db.session.add(coin)
     db.session.commit()
 
     return {'coin': format_coin(coin)}

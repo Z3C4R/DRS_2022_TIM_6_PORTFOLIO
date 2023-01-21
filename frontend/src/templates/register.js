@@ -21,8 +21,6 @@ export default function Register() {
   
   const[usersList, setUsersList]=useState([]);
   
-  const {currentUser}=useContext(UserContext);
-
   const fetchUsers=async()=>{
     const data=await axios.get(`${baseUrl}/users`)
     const {Users}=data.data

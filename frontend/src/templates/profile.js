@@ -60,10 +60,10 @@ export default function Profile() {
     currentUser.Phonenumber = phonenumber;
 
     try{
-      const data=await axios.put(`${baseUrl}/users/${currentUser.id}`,{firstname, lastname, adress, city, country, phonenumber, email, password})
+        const data=await axios.put(`${baseUrl}/users/${currentUser.id}`,{firstname, lastname, adress, city, country, phonenumber, email, password});
+        setUsersList([...usersList, data.data]);
+        alert("Uspesno izmenjen profil!");
       
-      setUsersList([...usersList, data.data]);
-      alert("Uspesno izmenjen profil!")
       
     }catch(err){
       console.error(err.message);
@@ -73,12 +73,15 @@ export default function Profile() {
 
   const handleDelete = async (id) => {
     try{
-      await axios.delete(`${baseUrl}/users/${id}`)
-      setCurrentUser(null);
-      navigate("/");
+        await axios.delete(`${baseUrl}/users/${id}`);
+        setCurrentUser(null);
+        navigate("/");
+      
+      
+     
 
     } catch(err){
-      console.error(err.message)
+      console.error(err.message);
     }
   }
 
