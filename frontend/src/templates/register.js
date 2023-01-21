@@ -39,7 +39,7 @@ export default function Register() {
     
    function letterCheck(){
     var letters = /^[A-Za-z]+$/;
-    var addressValidation = /^(?:[0-9]+[a-z]|[a-z]+[0-9])[a-z0-9]*$/i;
+    var addressValidation = /^(?:[0-9]+[a-z\s]|[a-z\s]+[0-9])[a-z0-9\s]*$/i;
     var lettersAndSpace = /^[A-Za-z\s]+$/;
     var phoneValidation = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s/0-9]*$/g;
     var pwValidation = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
